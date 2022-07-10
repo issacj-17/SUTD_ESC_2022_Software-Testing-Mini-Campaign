@@ -25,5 +25,5 @@ The Program can only work with csv files with defined column names.
 At the moment, I have left them as print statements until further clarification is obtained on the requirements of the program from the instructors. I will not clarify them openly as these may be possible bugs for the bug bounty campaign.
 
 ### Future Implementation
-Priority 1 - Implement Comparison between Files with no column names (Restriction would be that both files must either have column names or no column names)
+Priority 1 - Implement Comparison between Files with no column names (Restriction would be that both files must either have column names or no column names). \
 Priority 2 - Implement User Input Combination (To simplify the complexity, the user will have to submit .csv file containing the column names or column index (0 to n - 1).

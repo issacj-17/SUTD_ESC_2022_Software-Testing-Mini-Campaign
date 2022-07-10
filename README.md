@@ -21,4 +21,4 @@ Note:
 - Entries do not match column count
 - Presence of whitespace in the CSV files e.g. A,B,C v.s. A, B,C
 
-At the moment, I have left them as print statements until further clarification is obtained the requirements of the program from the instructors. I will not clarify them openly as these may be possible bugs for the bug bounty campaign.
+At the moment, I have left them as print statements until further clarification is obtained on the requirements of the program from the instructors. I will not clarify them openly as these may be possible bugs for the bug bounty campaign.

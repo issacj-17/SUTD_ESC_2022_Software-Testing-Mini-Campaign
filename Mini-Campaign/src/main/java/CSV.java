@@ -229,6 +229,12 @@ public class CSV {
 
             for (String key : selectedKeys) {
                 if (!hashMap1.containsKey(key) || !hashMap2.containsKey(key)) {
+//                    System.out.println(hashMap1);
+//                    System.out.println(hashMap1.containsKey(key));
+//                    System.out.println(hashMap2);
+//                    System.out.println(hashMap2.containsKey(key));
+//                    System.out.println(key);
+
                     String message = String.format("Input Column: {%s} Does Not Exist in Both CSV Files", key);
                     throw new CSVException(message);
                 }

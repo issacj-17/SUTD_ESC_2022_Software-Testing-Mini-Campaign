@@ -102,7 +102,18 @@ public class Main {
 
                 }
                 else if(arg.equals(options.get(2))) {
-                    selectedColumns = option.split(",");
+                    String[] names = option.split(",");
+
+//                    System.out.println(Arrays.toString(names));
+
+                    for (int j = 0; j < names.length; j++) {
+                        String clean = "\"" + names[j] + "\"";
+                        names[j] = clean;
+                    }
+
+//                    System.out.println(Arrays.toString(names));
+
+                    selectedColumns = names;
                 }
             }
             else{

@@ -22,6 +22,7 @@ Examples:
   - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -d ,`
   - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p false`
   - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p true -c "Customer ID#","Currency"`
+  - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -c "Customer ID#","Type","Balance"`
   - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p false -c 1,3,4`
   - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p false -c 1,3,4 -d |`
 

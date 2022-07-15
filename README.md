@@ -32,8 +32,6 @@ Program throws the Following Exceptions via a stacktrace:
 - IOException
 - CSVException (Program-Specific)
 
-The Program can only work with csv files with defined column names.
-
 ### Note 
 
 1. There are some implementations that I am currently not sure to define as an Exception via the Program or as a mismatch -

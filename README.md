@@ -11,10 +11,10 @@ Use Case Diagram is located in Mini-Campaign folder.
 To run the program (located in Mini-Campaign/src/main/java folder), run the following command in terminal using the Main.java file: \
 `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> [flags]` \
 
-`Flags: \
+Flags: \
     -d    Delimiters used in BOTH CSV Files                                      choices: {",", "|", ";", "tab", "space"} \
     -p    Boolean dictating whether columns are present in BOTH CSV Files        choices: {"true", "false"} \(Case-Insensitive) \
-    -c    Unique Input Combination (if -p true, Indicate column names with double quotes, separated by commas with no space. Otherwise, Indicate column position using 1-based indexing)`
+    -c    Unique Input Combination (if -p true, Indicate column names with double quotes, separated by commas with no space. Otherwise, Indicate column position using 1-based indexing)
 
 Program throws the Following Exceptions via a stacktrace:
 

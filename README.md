@@ -13,7 +13,7 @@ To run the program (located in Mini-Campaign/src/main/java folder), run the foll
 
 `Flags:
     -d    Delimiters used in BOTH CSV Files                                      choices: {",", "|", ";", "tab", "space"} \
-    -p    Boolean dictating whether columns are present in BOTH CSV Files        choices: {"true", "false"} \(Case-Insensitive)
+    -p    Boolean dictating whether columns are present in BOTH CSV Files        choices: {"true", "false"} \(Case-Insensitive) \
     -c    Unique Input Combination (if -p true, Indicate column names with double quotes, separated by commas with no space. Otherwise, Indicate column position using 1-based indexing)'
 
 Program throws the Following Exceptions via a stacktrace:

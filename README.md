@@ -9,7 +9,7 @@ Use Case Diagram is located in Mini-Campaign folder.
 ### Program Implementation
 
 To run the program (located in Mini-Campaign/src/main/java folder), run the following command in terminal using the Main.java file: \
-`java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> [flags]`
+`java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> [flags]`
 
 Flags:
 
@@ -46,5 +46,4 @@ At the moment, I have left them as print statements until further clarification 
 
 ### Future Implementation
 
-Priority 1 - Implement Comparison between Files with no column names (Restriction would be that both files must either have column names or no column names). \
-Priority 2 - Implement User Input Combination (To simplify the complexity, the user will have to submit .csv file containing the column names or column index (0 to n - 1).
+Priority 1 - Implement Test Cases

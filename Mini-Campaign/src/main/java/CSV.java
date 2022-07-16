@@ -7,7 +7,6 @@ import java.util.*;
 
 
 public class CSV {
-
     public static class CSVParser {
 
         public static LinkedHashSet<LinkedHashMap> parseCSV(String filePath, String delimiter, boolean columnsPresent) throws IOException, CSVException {
@@ -41,14 +40,18 @@ public class CSV {
             while ((line = reader.readLine()) != null) {
 
                 if (i == 0) {
-                    columns = line.split(delimiter);
+                    String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+                    columns = line.split(regex, -1);
                     validateColumns(columns);
 
 //                    System.out.println(Arrays.toString(columns));
                 }
                 else {
                     String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
-                    String[] row = line.split(regex);
+                    String[] row = line.split(regex, -1);
+
+//                    System.out.println(Arrays.toString(row));
+
                     hashMap = getLinkedHashMap(columns, row);
 
                     if (!hashSet.add(hashMap)) {
@@ -78,13 +81,17 @@ public class CSV {
             while ((line = reader.readLine()) != null) {
 
                 if (i == 0) {
-                    columns = new String[line.split(delimiter).length];
+                    String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+                    columns = new String[line.split(regex, -1).length];
                     Arrays.setAll(columns, j -> Integer.toString(j + 1));
 
 //                System.out.println(Arrays.toString(columns));
                 }
                 String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
-                String[] row = line.split(regex);
+                String[] row = line.split(regex, -1);
+
+//                System.out.println(Arrays.toString(row));
+
                 hashMap = getLinkedHashMap(columns, row);
 
                 if (!hashSet.add(hashMap)) {
@@ -158,27 +165,67 @@ public class CSV {
             ArrayList<LinkedHashSet> result;
 
             if (selectedKeys.length == 0) {
+                checkColumns(set1, set2);
                 result = compareAll(set1, set2);
             }
             else {
-                result = compareSelection(set1, set2, selectedKeys);
+                String[] selectedColumns = formatSelectedColumns(set1, set2, selectedKeys);
+                result = compareSelection(set1, set2, selectedColumns);
             }
 
             System.out.println("CSV Files: Compare Success!");
 
             return  result;
         }
+
+        private static void checkColumns(LinkedHashSet<LinkedHashMap> set1, LinkedHashSet<LinkedHashMap> set2) throws CSVException {
+            validate: {
+                for (LinkedHashMap hashMap1 : set1) {
+                    for (LinkedHashMap hashMap2 : set2) {
+                        if (hashMap1.keySet().equals(hashMap2.keySet())) {
+                            break validate;
+                        }
+                        else {
+                            Set<String> keys1 = hashMap1.keySet();
+                            Set<String> keys2 = hashMap2.keySet();
+
+                            Set<String> intersect = new LinkedHashSet<>(keys1);
+                            Set<String> missing = new LinkedHashSet<>();
+
+//                            System.err.println(keys1);
+//                            System.err.println(keys2);
+
+                            intersect.retainAll(keys2);
+//                            System.err.println(intersect);
+
+                            keys1.removeAll(intersect);
+                            keys2.removeAll(intersect);
+
+//                            System.err.println(keys1);
+//                            System.err.println(keys2);
+
+                            missing.addAll(keys1);
+                            missing.addAll(keys2);
+
+                            String message = String.format("Input Column(s): %s Not in Both CSV Files", missing);
+
+                            throw new CSVException(message);
+                        }
+                    }
+                }
+            }
+        }
+
         public static ArrayList<LinkedHashSet> compareAll(LinkedHashSet<LinkedHashMap> set1, LinkedHashSet<LinkedHashMap> set2) {
             ArrayList<LinkedHashSet> arrayList = new ArrayList<>();
             LinkedHashSet<LinkedHashMap> set3 = new LinkedHashSet<>();
 
-            for (LinkedHashMap hashMap : set2) {
-
-                if (set1.contains(hashMap)){
-                    set1.remove(hashMap);
+            for (LinkedHashMap hashMap2 : set2) {
+                if (set1.contains(hashMap2)){
+                    set1.remove(hashMap2);
                 }
                 else {
-                    set3.add(hashMap);
+                    set3.add(hashMap2);
                 }
             }
 
@@ -188,6 +235,43 @@ public class CSV {
             return arrayList;
         }
 
+        private static String[] formatSelectedColumns (LinkedHashSet<LinkedHashMap> set1, LinkedHashSet<LinkedHashMap> set2, String[] selectedKeys) throws CSVException {
+            ArrayList<String> keys1 = new ArrayList<>();
+            ArrayList<String> keys2 = new ArrayList<>();
+
+//            System.out.println(Arrays.toString(selectedKeys));
+
+            for (LinkedHashMap hashMap1 : set1) {
+                keys1 = new ArrayList<>(hashMap1.keySet());
+                break;
+            }
+
+            for (LinkedHashMap hashMap2 : set2) {
+                keys2 = new ArrayList<>(hashMap2.keySet());
+                break;
+            }
+
+
+            for (int i = 0; i < selectedKeys.length; i++) {
+                String original = selectedKeys[i];
+                String formatted = "\"" + selectedKeys[i] + "\"";
+
+                if (keys1.contains(original) || keys2.contains(original)){
+                    selectedKeys[i] = original;
+                }
+                else if (keys1.contains(formatted) || keys2.contains(formatted)){
+                    selectedKeys[i] = formatted;
+                }
+                else {
+                    String message = String.format("Input Column: {%s} Does Not Exist", original);
+                    throw new CSVException(message);
+                }
+            }
+
+//            System.out.println(Arrays.toString(selectedKeys));
+
+            return selectedKeys;
+        }
         public static ArrayList<LinkedHashSet> compareSelection(LinkedHashSet<LinkedHashMap> set1, LinkedHashSet<LinkedHashMap> set2, String[] selectedKeys) throws CSVException {
             ArrayList<LinkedHashSet> arrayList = new ArrayList<>();
 
@@ -200,10 +284,12 @@ public class CSV {
 
             for (LinkedHashMap hashMap1 : set1) {
                 for (LinkedHashMap hashMap2 : set2){
+                    // bottleneck 1
                     compareMap(hashMap1, hashMap2, selectedKeys);
                 }
             }
 
+            // bottleneck 3
             modifiedSet1 = filterMap(set1, selectedKeys);
             modifiedSet2 = filterMap(set2, selectedKeys);
 
@@ -216,6 +302,7 @@ public class CSV {
                 }
             }
 
+            // bottleneck 2
             mismatchSet1 = getMismatchMap(set1, modifiedSet1);
             mismatchSet2 = getMismatchMap(set2, modifiedSet3);
 
@@ -268,6 +355,8 @@ public class CSV {
                 for (String key : selectedKeys) {
                     modifiedMap.put(key, hashMap.get(key));
                 }
+
+//                System.out.println(modifiedMap);
 
                 modifiedSet.add(modifiedMap);
             }

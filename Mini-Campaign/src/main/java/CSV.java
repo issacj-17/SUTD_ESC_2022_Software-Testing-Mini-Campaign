@@ -3,10 +3,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 
 public class CSV {
@@ -47,14 +44,15 @@ public class CSV {
                     columns = line.split(delimiter);
                     validateColumns(columns);
 
-//                System.out.println(Arrays.toString(columns));
+//                    System.out.println(Arrays.toString(columns));
                 }
                 else {
-                    String[] row = line.split(delimiter);
+                    String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+                    String[] row = line.split(regex);
                     hashMap = getLinkedHashMap(columns, row);
 
                     if (!hashSet.add(hashMap)) {
-                        System.out.println("Duplicate Rows Detected!");
+                        System.err.println("WARNING: Duplicate Rows Detected!");
                     }
                 }
 
@@ -85,12 +83,12 @@ public class CSV {
 
 //                System.out.println(Arrays.toString(columns));
                 }
-
-                String[] row = line.split(delimiter);
+                String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+                String[] row = line.split(regex);
                 hashMap = getLinkedHashMap(columns, row);
 
                 if (!hashSet.add(hashMap)) {
-                    System.out.println("Duplicate Rows Detected!");
+                    System.err.println("WARNING: Duplicate Rows Detected!");
                 }
 
                 i++;
@@ -105,10 +103,10 @@ public class CSV {
             LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
 
             if (row.length != columns.length) {
-                System.out.println(Arrays.toString(columns));
-                System.out.println(Arrays.toString(row));
+                System.err.println(Arrays.toString(columns) + "\tColumn Count: " + columns.length);
+                System.err.println(Arrays.toString(row) + "\tEntry Count: " + row.length);
 
-                throw new CSVException("Entry Does Not Match Column Count!");
+                throw new CSVException("Entry Count Does Not Match Column Count!");
             }
 
             for (int j = 0; j < row.length; j++) {
@@ -136,14 +134,17 @@ public class CSV {
 //                    System.out.println(columns[j] + ", " + clean);
 
                 if (!columns[j].equals(clean)) {
-                    System.out.println("White Space Detected! Check Column: " + columns[j]);
+                    System.err.println("WARNING: White Space Detected! Check Column: " + columns[j]);
                     columns[j] = columns[j].strip();
                 }
 
+                if (columns[j] == "") {
+                    throw new CSVException("Missing Column Detected");
+                }
 
                 if (!set.add(columns[j])) {
-                    System.out.println(set);
-                    System.out.println(columns[j]);
+                    System.err.println(Arrays.toString(columns));
+                    System.err.println(columns[j]);
 
                     throw new CSVException("Duplicate Column Names Detected!");
                 }
@@ -239,19 +240,21 @@ public class CSV {
                     throw new CSVException(message);
                 }
 
-                if (hashMap1.get(key) != hashMap2.get(key)) {
+                if (!hashMap1.get(key).equals(hashMap2.get(key))) {
                     selection = false;
                 }
             }
 
             boolean warning = selection && !hashMap1.equals(hashMap2);
+//            String message = String.format("warning: %b, selection %b, equivalent hashmap %b", warning, selection, !hashMap1.equals(hashMap2));
+//            System.out.println(message);
 
             if (warning){
-                System.out.println("WARNING: Check Your Column Selection - Row Mismatch but Values of Selected Columns Match. This will not be considered as a Mismatch.");
-                System.out.println("Selected Columns: " + Arrays.toString(selectedKeys));
-                System.out.println(hashMap1);
-                System.out.println(hashMap2);
-                System.out.println("Please Change Your Column Selection if you wish to consider the above as a Mismatch.");
+                System.err.println("WARNING: Check Your Column Selection - Row Mismatch but Values of Selected Columns Match. This will not be considered as a Mismatch.");
+                System.err.println("Selected Columns: " + Arrays.toString(selectedKeys));
+                System.err.println(hashMap1);
+                System.err.println(hashMap2);
+                System.err.println("Please Change Your Column Selection if you wish to consider the above as a Mismatch. \n");
             }
         }
 

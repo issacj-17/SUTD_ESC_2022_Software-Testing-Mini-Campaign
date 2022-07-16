@@ -14,9 +14,10 @@ public class Main {
         LinkedHashSet<LinkedHashMap> csvFile2;
         ArrayList<LinkedHashSet> result;
 
-        try {
-            System.out.println("Initialising Program...");
+        System.out.println("Initialising Program...");
+        long start = System.nanoTime();
 
+        try {
             validateArgs(args);
 
             csvFile1 = CSV.CSVParser.parseCSV(args[0], delimiter, columnsPresent);
@@ -41,6 +42,10 @@ public class Main {
             csv.printStackTrace();
         }
         finally {
+            long end = System.nanoTime();
+            long duration = (long) ((end - start) / Math.pow(10, 6));
+            String message = String.format("Execution Time: %sms", duration);
+            System.out.println(message);
             System.out.println("Program Terminated");
         }
     }

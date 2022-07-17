@@ -216,7 +216,7 @@ public class CSV {
             }
         }
 
-        public static ArrayList<LinkedHashSet> compareAll(LinkedHashSet<LinkedHashMap> set1, LinkedHashSet<LinkedHashMap> set2) {
+        private static ArrayList<LinkedHashSet> compareAll(LinkedHashSet<LinkedHashMap> set1, LinkedHashSet<LinkedHashMap> set2) {
             ArrayList<LinkedHashSet> arrayList = new ArrayList<>();
             LinkedHashSet<LinkedHashMap> set3 = new LinkedHashSet<>();
 
@@ -256,14 +256,15 @@ public class CSV {
                 String original = selectedKeys[i];
                 String formatted = "\"" + selectedKeys[i] + "\"";
 
-                if (keys1.contains(original) || keys2.contains(original)){
+                if (keys1.contains(original) && keys2.contains(original)) {
                     selectedKeys[i] = original;
                 }
-                else if (keys1.contains(formatted) || keys2.contains(formatted)){
+                else if (keys1.contains(formatted) && keys2.contains(formatted)) {
                     selectedKeys[i] = formatted;
                 }
                 else {
-                    String message = String.format("Input Column: {%s} Does Not Exist", original);
+                    String note = "Note: Please ensure that the Column Name Exists in Both Files and in the Same Format.";
+                    String message = String.format("Input Column: {%s} Does Not Exist in Both CSV Files!\n%s", original, note);
                     throw new CSVException(message);
                 }
             }
@@ -272,7 +273,7 @@ public class CSV {
 
             return selectedKeys;
         }
-        public static ArrayList<LinkedHashSet> compareSelection(LinkedHashSet<LinkedHashMap> set1, LinkedHashSet<LinkedHashMap> set2, String[] selectedKeys) throws CSVException {
+        private static ArrayList<LinkedHashSet> compareSelection(LinkedHashSet<LinkedHashMap> set1, LinkedHashSet<LinkedHashMap> set2, String[] selectedKeys) {
             ArrayList<LinkedHashSet> arrayList = new ArrayList<>();
 
             LinkedHashSet<LinkedHashMap> modifiedSet1;
@@ -282,10 +283,16 @@ public class CSV {
             LinkedHashSet<LinkedHashMap> mismatchSet1;
             LinkedHashSet<LinkedHashMap> mismatchSet2;
 
-            for (LinkedHashMap hashMap1 : set1) {
-                for (LinkedHashMap hashMap2 : set2){
-                    // bottleneck 1
-                    compareMap(hashMap1, hashMap2, selectedKeys);
+            validate: {
+                for (LinkedHashMap<String, String> hashMap1 : set1) {
+                    for (LinkedHashMap<String, String> hashMap2 : set2){
+                        // bottleneck 1 - CRITICAL BOTTLENECK
+                        boolean err = checkRows(hashMap1, hashMap2, selectedKeys);
+
+                        if (err){
+                            break validate;
+                        }
+                    }
                 }
             }
 
@@ -312,23 +319,13 @@ public class CSV {
             return arrayList;
         }
 
-        private static void compareMap(LinkedHashMap<String, String> hashMap1, LinkedHashMap<String, String> hashMap2, String[] selectedKeys) throws CSVException {
+        private static boolean checkRows(LinkedHashMap<String, String> hashMap1, LinkedHashMap<String, String> hashMap2, String[] selectedKeys) {
             boolean selection = true;
 
             for (String key : selectedKeys) {
-                if (!hashMap1.containsKey(key) || !hashMap2.containsKey(key)) {
-//                    System.out.println(hashMap1);
-//                    System.out.println(hashMap1.containsKey(key));
-//                    System.out.println(hashMap2);
-//                    System.out.println(hashMap2.containsKey(key));
-//                    System.out.println(key);
-
-                    String message = String.format("Input Column: {%s} Does Not Exist in Both CSV Files", key);
-                    throw new CSVException(message);
-                }
-
                 if (!hashMap1.get(key).equals(hashMap2.get(key))) {
                     selection = false;
+                    break;
                 }
             }
 
@@ -337,12 +334,18 @@ public class CSV {
 //            System.out.println(message);
 
             if (warning){
-                System.err.println("WARNING: Check Your Column Selection - Row Mismatch but Values of Selected Columns Match. This will not be considered as a Mismatch.");
+                System.err.println("WARNING: Check Your Column Selection - Row Mismatch but Values of Selected Columns Match.");
+                System.err.println("This will not be considered as a Mismatch.");
                 System.err.println("Selected Columns: " + Arrays.toString(selectedKeys));
+                System.err.println("\nCase Example:");
                 System.err.println(hashMap1);
                 System.err.println(hashMap2);
-                System.err.println("Please Change Your Column Selection if you wish to consider the above as a Mismatch. \n");
+                System.err.println("Please Change Your Column Selection if you wish to check whether cases such as the above are considered as a Mismatch. \n");
+
+                return true;
             }
+
+            return false;
         }
 
         private static LinkedHashSet<LinkedHashMap> filterMap(LinkedHashSet<LinkedHashMap> set, String[] selectedKeys) {
@@ -384,10 +387,19 @@ public class CSV {
     }
 
     public static class CSVWriter {
-        public static void writeToCSV(ArrayList<LinkedHashSet> arrayList, String[] args) throws IOException {
+        public static void writeToCSV(ArrayList<LinkedHashSet> arrayList, String[] args, String[] selectedKeys) throws IOException {
             String file1 = Paths.get(args[0]).getFileName().toString().replace(".csv", "");
             String file2 = Paths.get(args[1]).getFileName().toString().replace(".csv", "");
-            String path = String.format("compare_%s_%s.csv", file1, file2);
+            String path;
+
+            if (selectedKeys.length == 0){
+                path = String.format("compare_%s_%s_all.csv", file1, file2);
+            }
+            else {
+                 path = String.format("compare_%s_%s_selection.csv", file1, file2);
+            }
+
+
 
             LinkedHashSet<LinkedHashMap> set;
             String[] filePath = new String[]{file1, file2};

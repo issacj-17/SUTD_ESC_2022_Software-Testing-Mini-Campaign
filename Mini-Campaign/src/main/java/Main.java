@@ -25,7 +25,7 @@ public class Main {
 
             result = CSV.CSVCompare.compare(csvFile1, csvFile2, selectedColumns);
 
-            CSV.CSVWriter.writeToCSV(result, args);
+            CSV.CSVWriter.writeToCSV(result, args, selectedColumns);
 
             System.out.println("Program Success!");
         }

@@ -11,6 +11,8 @@ Use Case Diagram is located in Mini-Campaign folder.
 To run the program (located in Mini-Campaign/src/main/java folder), run the following command in terminal using the Main.java file: \
 `java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> [flags]`
 
+Note: Use the Absolute path of the Input File. The Output File will be generated at the Current Working Directory of the Terminal. 
+
 Flags:
 
   - -d    Delimiters used in BOTH CSV Files                                      choices: {",", "|", ";", "tab", "space"} (Default: ",")

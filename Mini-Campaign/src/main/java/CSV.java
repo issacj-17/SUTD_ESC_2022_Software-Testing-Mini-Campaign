@@ -145,7 +145,7 @@ public class CSV {
                     columns[j] = columns[j].strip();
                 }
 
-                if (columns[j] == "") {
+                if (Objects.equals(columns[j], "")) {
                     throw new CSVException("Missing Column Detected");
                 }
 

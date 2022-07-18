@@ -18,13 +18,13 @@ Flags:
   - -c    Unique Input Combination    (if -p true, Indicate column names with double quotes, separated by commas with no space. Otherwise, Indicate column position using 1-based indexing) (Default: All Columns across both CSV Files are compared)
 
 Examples:
-  - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2>`
-  - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -d ,`
-  - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p false`
-  - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p true -c "Customer ID#","Currency"`
-  - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -c "Customer ID#","Type","Balance"`
-  - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p false -c 1,3,4`
-  - `java -classpath .\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p false -c 1,3,4 -d |`
+  - `java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2>`
+  - `java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -d ,`
+  - `java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p false`
+  - `java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p true -c "Customer ID#","Currency"`
+  - `java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -c "Customer ID#","Type","Balance"`
+  - `java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p false -c 1,3,4`
+  - `java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> -p false -c 1,3,4 -d |`
 
 Program throws the Following Exceptions via a stacktrace:
 

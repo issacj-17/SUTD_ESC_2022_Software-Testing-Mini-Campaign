@@ -29,33 +29,33 @@ public class CSV {
         private static LinkedHashSet<LinkedHashMap> parseCSVColumns(String filePath, String delimiter) throws IOException, CSVException {
             String line;
             String[] columns = new String[0];
-
+            String[] row;
+                    
             int i = 0;
 
             LinkedHashSet<LinkedHashMap> hashSet = new LinkedHashSet<>();
             LinkedHashMap<String, String> hashMap;
 
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
 
             while ((line = reader.readLine()) != null) {
 
                 if (i == 0) {
-                    String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
                     columns = line.split(regex, -1);
                     validateColumns(columns);
 
 //                    System.out.println(Arrays.toString(columns));
                 }
                 else {
-                    String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
-                    String[] row = line.split(regex, -1);
+                    row = line.split(regex, -1);
 
 //                    System.out.println(Arrays.toString(row));
 
                     hashMap = getLinkedHashMap(columns, row);
 
                     if (!hashSet.add(hashMap)) {
-                        System.err.println("WARNING: Duplicate Rows Detected!");
+                        generateDuplicateWarning(hashMap);
                     }
                 }
 
@@ -70,6 +70,7 @@ public class CSV {
         private static LinkedHashSet<LinkedHashMap> parseCSVNoColumns(String filePath, String delimiter) throws IOException, CSVException {
             String line;
             String[] columns = new String[0];
+            String[] row;
 
             int i = 0;
 
@@ -77,25 +78,25 @@ public class CSV {
             LinkedHashMap<String, String> hashMap;
 
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
 
             while ((line = reader.readLine()) != null) {
 
                 if (i == 0) {
-                    String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
                     columns = new String[line.split(regex, -1).length];
                     Arrays.setAll(columns, j -> Integer.toString(j + 1));
 
 //                System.out.println(Arrays.toString(columns));
                 }
-                String regex = delimiter + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
-                String[] row = line.split(regex, -1);
+
+                row = line.split(regex, -1);
 
 //                System.out.println(Arrays.toString(row));
 
                 hashMap = getLinkedHashMap(columns, row);
 
                 if (!hashSet.add(hashMap)) {
-                    System.err.println("WARNING: Duplicate Rows Detected!");
+                    generateDuplicateWarning(hashMap);
                 }
 
                 i++;
@@ -104,6 +105,11 @@ public class CSV {
             reader.close();
 
             return hashSet;
+        }
+
+        private static void generateDuplicateWarning(LinkedHashMap<String, String> hashMap){
+            System.err.println("WARNING: Duplicate Rows Detected!");
+            System.err.println("Duplicate Entry: " + hashMap);
         }
 
         private static LinkedHashMap<String, String> getLinkedHashMap(String[] columns, String[] row) throws CSVException {
@@ -138,15 +144,11 @@ public class CSV {
 
             for (int j = 0; j < columns.length; j++) {
                 String clean = columns[j].strip();
-//                    System.out.println(columns[j] + ", " + clean);
+                String formatted = columns[j].replace("\"", "").strip();
+//                    System.out.println(columns[j] + ", [" + clean + "], [" + formatted + "]");
 
-                if (!columns[j].equals(clean)) {
-                    System.err.println("WARNING: White Space Detected! Check Column: " + columns[j]);
-                    columns[j] = columns[j].strip();
-                }
-
-                if (Objects.equals(columns[j], "")) {
-                    throw new CSVException("Missing Column Detected");
+                if (Objects.equals(clean, "") || Objects.equals(formatted, "")) {
+                    throw new CSVException("Empty Column Name Detected");
                 }
 
                 if (!set.add(columns[j])) {
@@ -155,6 +157,12 @@ public class CSV {
 
                     throw new CSVException("Duplicate Column Names Detected!");
                 }
+
+                if (!columns[j].equals(clean)) {
+                    System.err.println("WARNING: White Space Detected! Check Column: " + columns[j]);
+                }
+
+                columns[j] = formatted;
             }
         }
     }
@@ -207,8 +215,8 @@ public class CSV {
                             missing.addAll(keys1);
                             missing.addAll(keys2);
 
-                            String message = String.format("Input Column(s): %s Not in Both CSV Files", missing);
-
+                            String note = "Note: Please ensure that the Column Name Exists in Both Files and in the Same Format.";
+                            String message = String.format("Input Column(s): %s Does Not Exist in Both CSV Files!\n%s", missing, note);
                             throw new CSVException(message);
                         }
                     }
@@ -254,7 +262,7 @@ public class CSV {
 
             for (int i = 0; i < selectedKeys.length; i++) {
                 String original = selectedKeys[i];
-                String formatted = "\"" + selectedKeys[i] + "\"";
+                String formatted = selectedKeys[i].replace("\"", "");
 
                 if (keys1.contains(original) && keys2.contains(original)) {
                     selectedKeys[i] = original;
@@ -283,18 +291,19 @@ public class CSV {
             LinkedHashSet<LinkedHashMap> mismatchSet1;
             LinkedHashSet<LinkedHashMap> mismatchSet2;
 
-            validate: {
-                for (LinkedHashMap<String, String> hashMap1 : set1) {
-                    for (LinkedHashMap<String, String> hashMap2 : set2){
-                        // bottleneck 1 - CRITICAL BOTTLENECK
-                        boolean err = checkRows(hashMap1, hashMap2, selectedKeys);
-
-                        if (err){
-                            break validate;
-                        }
-                    }
-                }
-            }
+            // Commented Out After Consulting with Prof Sudipta as it affects the Performance of the Program.
+//            validate: {
+//                for (LinkedHashMap<String, String> hashMap1 : set1) {
+//                    for (LinkedHashMap<String, String> hashMap2 : set2){
+//                        // bottleneck 1 - CRITICAL BOTTLENECK
+//                        boolean err = checkRows(hashMap1, hashMap2, selectedKeys);
+//
+//                        if (err){
+//                            break validate;
+//                        }
+//                    }
+//                }
+//            }
 
             // bottleneck 3
             modifiedSet1 = filterMap(set1, selectedKeys);
@@ -416,6 +425,11 @@ public class CSV {
 
                     if (keys == null) {
                         keys = (String[]) hashMap.keySet().toArray(new String[hashMap.size()]);
+
+                        for (int j = 0; j < keys.length; j++){
+                            keys[j] = "\"" + keys[j] + "\"";
+                        }
+
                         writeHelper(keys, writer);
                     }
 

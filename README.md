@@ -4,14 +4,20 @@
 
 ### Use Case Diagram
 
-Use Case Diagram is located in Mini-Campaign folder.
+Use Case Diagram is located in Mini-Campaign folder as `Use Case Diagram.jpg`.
+
+### Equivalence Class Partitioning with Boundary Value Analysis
+
+The Document is located in Mini-Campaign folder as `Blackbox Test Design.pdf`.
 
 ### Program Implementation
 
 To run the program (located in Mini-Campaign/src/main/java folder), run the following command in terminal using the Main.java file: \
 `java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2> [flags]`
 
-Note: Use the Absolute path of the Input File. The Output File will be generated at the Current Working Directory of the Terminal. 
+Note: 
+  - The Unique Combination provided is assumed to be the basis of comparison between 2 entries (e.g. -c 1,3,4 would mean that the program checks whether the values in columns 1, 3 and 4 of one CSV file exist in the corresponding columns 1, 3 and 4 in the other CSV file).
+  - Use the Absolute path of the Input File. The Output File will be generated at the Current Working Directory of the Terminal. 
 
 Flags:
 

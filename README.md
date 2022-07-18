@@ -15,7 +15,7 @@ Flags:
 
   - -d    Delimiters used in BOTH CSV Files                                      choices: {",", "|", ";", "tab", "space"} (Default: ",")
   - -p    Boolean dictating whether columns are present in BOTH CSV Files        choices: {"true", "false"} (Case-Insensitive, Default: "true")
-  - -c    Unique Input Combination    (if -p true, Indicate column names with double quotes, separated by commas with no space. Otherwise, Indicate column position using 1-based indexing) (Default: All Columns across both CSV Files are compared)
+  - -c    Unique Input Combination    (if -p true, Indicate column names with double quotes, separated by commas with no space. Otherwise, Indicate column position using 1-based indexing, separated by commas with no space) (Default: All Columns across both CSV Files are compared)
 
 Examples:
   - `java -classpath .\Mini-Campaign\target\classes\ Main <path-of-CSV-File-1> <path-of-CSV-File-2>`

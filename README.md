@@ -40,15 +40,6 @@ Program throws the Following Exceptions via a stacktrace:
 - IOException
 - CSVException (Program-Specific)
 
-### Note 
-
-1. There are some implementations that I am currently not sure to define as an Exception via the Program or as a mismatch -
-
-    - Entries do not match column count
-    - Presence of whitespace in the CSV files e.g. A,B,C v.s. A, B,C
-
-At the moment, I have left them as print statements until further clarification is obtained on the requirements of the program from the instructors. I will not clarify them openly as these may be possible bugs for the bug bounty campaign.
-
 ### Future Implementation
 
 Priority 1 - Implement Test Cases

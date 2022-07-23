@@ -1,0 +1,9 @@
+test-duplicate3
+"Customer ID#","Account No.","Currency","Type","Balance"
+"ID3","BOS656613","USD","CURRENT","595290"
+"ID5","BOS657505","CAD","SAVINGS","95538"
+
+test-duplicate4
+"Customer ID#","Account No.","Currency","Type","Balance"
+"ID1","BOS963211","USD","SAVINGS","962510"
+

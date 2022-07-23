@@ -42,5 +42,5 @@ Program throws the Following Exceptions via a stacktrace:
 
 ### Testing
 
-Unit Testing and System Testing (via BlackBox Testing) implemented using JUnit 4.13.2 \
-For System Testing, 11 partitions were identified and 2 test cases correspond to Middle and Boundary Values respectively.
+- Unit Testing and System Testing (via BlackBox Testing) implemented using JUnit 4.13.2 
+- For System Testing, 11 partitions were identified and 2 test cases correspond to Middle and Boundary Values respectively.

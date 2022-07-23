@@ -152,8 +152,9 @@ public class CSV {
                 }
 
                 if (!set.add(columns[j])) {
+                    columns[j] = formatted;
                     System.err.println(Arrays.toString(columns));
-                    System.err.println(columns[j]);
+                    System.err.println(formatted);
 
                     throw new CSVException("Duplicate Column Names Detected!");
                 }

@@ -12,12 +12,12 @@ import static org.junit.Assert.*;
 public class SystemTest {
     @Before
     public void setup() {
-        System.out.println(String.format("Setting up Test: %s", this.getClass().getSimpleName()));
+        System.out.printf("Setting up Test: %s%n", this.getClass().getSimpleName());
     }
 
     @After
     public void teardown() {
-        System.out.println(String.format("Tear Down Test: %s \n", this.getClass().getSimpleName()));
+        System.out.printf("Tear Down Test: %s \n%n", this.getClass().getSimpleName());
     }
 
     @Test
@@ -151,6 +151,7 @@ public class SystemTest {
         String command = ".\\assets\\testfile\\test-missing-column1.csv .\\assets\\testfile\\test-missing-column2.csv -c \"Balance\",\"Type\"";
         String[] args = command.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
         System.out.println(Arrays.toString(args));
+
         assertThrows(CSV.CSVException.class, () -> {
             Main.run(args);
         });
@@ -161,6 +162,7 @@ public class SystemTest {
         String command = ".\\assets\\testfile\\test-missing-column1.csv .\\assets\\testfile\\test-missing-column3.csv -c \"Balance\",\"Account No.\"";
         String[] args = command.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
         System.out.println(Arrays.toString(args));
+
         assertThrows(CSV.CSVException.class, () -> {
             Main.run(args);
         });
@@ -199,14 +201,12 @@ public class SystemTest {
         try {
             Main.run(args);
 
-            Thread.sleep(50);
-
             File file1 = new File("compare_test-duplicate1_test-duplicate2_all.csv");
             File file2 = new File(".\\assets\\expected\\expected_test-duplicate1_test-duplicate2_all.csv");
 
             assertTrue("Files Are Different", FileUtils.contentEquals(file1, file2));
 
-        } catch (IOException | CSV.CSVException | InterruptedException e) {
+        } catch (IOException | CSV.CSVException e) {
             throw new RuntimeException(e);
         }
     }
@@ -220,14 +220,12 @@ public class SystemTest {
         try {
             Main.run(args);
 
-            Thread.sleep(50);
-
             File file1 = new File("compare_test-duplicate3_test-duplicate4_all.csv");
             File file2 = new File(".\\assets\\expected\\expected_test-duplicate3_test-duplicate4_all.csv");
 
             assertTrue("Files Are Different", FileUtils.contentEquals(file1, file2));
 
-        } catch (IOException | CSV.CSVException | InterruptedException e) {
+        } catch (IOException | CSV.CSVException e) {
             throw new RuntimeException(e);
         }
     }
@@ -241,14 +239,12 @@ public class SystemTest {
         try {
             Main.run(args);
 
-            Thread.sleep(50);
-
             File file1 = new File("compare_test-duplicate5_test-duplicate6_all.csv");
             File file2 = new File(".\\assets\\expected\\expected_test-duplicate5_test-duplicate6_all.csv");
 
             assertTrue("Files Are Different", FileUtils.contentEquals(file1, file2));
 
-        } catch (IOException | CSV.CSVException | InterruptedException e) {
+        } catch (IOException | CSV.CSVException e) {
             throw new RuntimeException(e);
         }
     }
@@ -262,14 +258,12 @@ public class SystemTest {
         try {
             Main.run(args);
 
-            Thread.sleep(50);
-
             File file1 = new File("compare_test-duplicate5_test-duplicate7_all.csv");
             File file2 = new File(".\\assets\\expected\\expected_test-duplicate5_test-duplicate7_all.csv");
 
             assertTrue("Files Are Different", FileUtils.contentEquals(file1, file2));
 
-        } catch (IOException | CSV.CSVException | InterruptedException e) {
+        } catch (IOException | CSV.CSVException e) {
             throw new RuntimeException(e);
         }
     }
@@ -285,14 +279,12 @@ public class SystemTest {
         try {
             Main.run(args);
 
-            Thread.sleep(50);
-
             File file1 = new File("compare_sample_file_1_sample_file_2_all.csv");
             File file2 = new File(".\\assets\\expected\\expected_sample_file_1_sample_file_2_all.csv");
 
             assertTrue("Files Are Different", FileUtils.contentEquals(file1, file2));
 
-        } catch (IOException | CSV.CSVException | InterruptedException e) {
+        } catch (IOException | CSV.CSVException e) {
             throw new RuntimeException(e);
         }
     }
@@ -306,18 +298,13 @@ public class SystemTest {
         try {
             Main.run(args);
 
-            Thread.sleep(50);
-
             File file1 = new File("compare_test-control_test-difference2_all.csv");
             File file2 = new File(".\\assets\\expected\\expected_test-control_test-difference2_all.csv");
 
             assertTrue("Files Are Different", FileUtils.contentEquals(file1, file2));
 
-        } catch (IOException | CSV.CSVException | InterruptedException e) {
+        } catch (IOException | CSV.CSVException e) {
             throw new RuntimeException(e);
         }
     }
-
-
-
 }

@@ -5,15 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 
 public class Main {
-    private static String delimiter = ",";
-    private static boolean columnsPresent = true;
-    private static String[] selectedColumns = new String[0];
+    private static String delimiter;
+    private static boolean columnsPresent;
+    private static String[] selectedColumns;
 
     public static void main(String[] args){
-        LinkedHashSet<LinkedHashMap> csvFile1;
-        LinkedHashSet<LinkedHashMap> csvFile2;
-        ArrayList<LinkedHashSet> result;
-
         System.out.println("Initialising Program...");
         long start = System.nanoTime();
 
@@ -46,6 +42,11 @@ public class Main {
         LinkedHashSet<LinkedHashMap> csvFile1;
         LinkedHashSet<LinkedHashMap> csvFile2;
         ArrayList<LinkedHashSet> result;
+
+        selectedColumns = new String[0];
+        delimiter = ",";
+        columnsPresent = true;
+
         validateArgs(args);
 
         csvFile1 = CSV.CSVParser.parseCSV(args[0], delimiter, columnsPresent);

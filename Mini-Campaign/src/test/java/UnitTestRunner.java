@@ -7,7 +7,7 @@ import junit.framework.JUnit4TestAdapter;
 @RunWith (Suite.class)
 
 //BlackBox Not Included due to errors in executing assertions
-@Suite.SuiteClasses ({ CSVReadWriteTest.class, ValidateArgsParamTest.class, ValidateArgsErrorTest.class })  // Add test classes here.
+@Suite.SuiteClasses ({ CSVReadWriteTest.class, ValidateArgsParamTest.class, ValidateArgsErrorTest.class, SystemTest.class })  // Add test classes here.
 
 public class UnitTestRunner
 {

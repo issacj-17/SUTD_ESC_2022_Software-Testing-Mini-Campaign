@@ -67,6 +67,8 @@ public class SystemTest {
         assertThrows(IOException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -78,6 +80,8 @@ public class SystemTest {
         assertThrows(IOException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -89,6 +93,8 @@ public class SystemTest {
         assertThrows(IllegalArgumentException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -100,6 +106,8 @@ public class SystemTest {
         assertThrows(IllegalArgumentException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -111,6 +119,8 @@ public class SystemTest {
         assertThrows(IllegalArgumentException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -122,6 +132,8 @@ public class SystemTest {
         assertThrows(IllegalArgumentException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -133,6 +145,8 @@ public class SystemTest {
         assertThrows(CSV.CSVException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -144,6 +158,8 @@ public class SystemTest {
         assertThrows(CSV.CSVException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -155,6 +171,8 @@ public class SystemTest {
         assertThrows(CSV.CSVException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -166,6 +184,8 @@ public class SystemTest {
         assertThrows(CSV.CSVException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -177,6 +197,8 @@ public class SystemTest {
         assertThrows(CSV.CSVException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -188,6 +210,8 @@ public class SystemTest {
         assertThrows(CSV.CSVException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -199,6 +223,8 @@ public class SystemTest {
         assertThrows(CSV.CSVException.class, () -> {
             Main.run(args);
         });
+
+//        Main.main(args);
     }
 
     @Test
@@ -211,9 +237,9 @@ public class SystemTest {
             Main.run(args);
         });
 
+//        Main.main(args);
     }
 
-    /** Note: Rerun Test17 to Test22 if they fail. There may be a bug in running the FileUtils method concurrently. */
     @Test
     public void Test17() {
         String command = ".\\assets\\testfile\\test-duplicate1.csv .\\assets\\testfile\\test-duplicate2.csv";

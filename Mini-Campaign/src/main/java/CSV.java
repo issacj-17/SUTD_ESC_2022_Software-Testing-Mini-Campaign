@@ -116,10 +116,15 @@ public class CSV {
             LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
 
             if (row.length != columns.length) {
-                System.err.println(Arrays.toString(columns) + "\tColumn Count: " + columns.length);
-                System.err.println(Arrays.toString(row) + "\tEntry Count: " + row.length);
+                String columnCount = Arrays.toString(columns) + " \tColumn Count: " + columns.length;
+                String rowCount = Arrays.toString(row) + "\tEntry Count: " + row.length;
 
-                throw new CSVException("Entry Count Does Not Match Column Count!");
+//                System.err.println(columnCount);
+//                System.err.println(rowCount);
+//                throw new CSVException("Entry Count Does Not Match Column Count!");
+
+                String message = String.format("Entry Count Does Not Match Column Count!\n%s\n%s", columnCount, rowCount);
+                throw new CSVException(message);
             }
 
             for (int j = 0; j < row.length; j++) {
@@ -153,10 +158,14 @@ public class CSV {
 
                 if (!set.add(columns[j])) {
                     columns[j] = formatted;
-                    System.err.println(Arrays.toString(columns));
-                    System.err.println(formatted);
+                    String array = Arrays.toString(columns);
 
-                    throw new CSVException("Duplicate Column Names Detected!");
+//                    System.err.println(array);
+//                    System.err.println(formatted);
+//                    throw new CSVException("Duplicate Column Names Detected!");
+
+                    String message = String.format("Duplicate Column Names Detected!\n%s\n%s", array, formatted);
+                    throw new CSVException(message);
                 }
 
                 if (!columns[j].equals(clean)) {

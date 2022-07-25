@@ -44,3 +44,4 @@ Program throws the Following Exceptions via a stacktrace:
 
 - Unit Testing and System Testing (via BlackBox Testing) implemented using JUnit 4.13.2 
 - For System Testing, 11 partitions were identified and 2 test cases correspond to Middle and Boundary Values respectively.
+- All Test Cases can be run by running the UnitTestRunner.java file.

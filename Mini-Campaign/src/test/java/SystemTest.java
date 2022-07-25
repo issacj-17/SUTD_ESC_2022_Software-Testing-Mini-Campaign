@@ -25,7 +25,18 @@ public class SystemTest {
         String command = ".\\assets\\testfile\\sample_file_1.csv .\\assets\\testfile\\sample_file_1.csv";
         String[] args = command.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
         System.out.println(Arrays.toString(args));
-        Main.main(args);
+
+        try {
+            Main.run(args);
+
+            File file1 = new File("compare_sample_file_1_sample_file_1_all.csv");
+            File file2 = new File(".\\assets\\expected\\expected_sample_file_1_sample_file_1_all.csv");
+
+            assertTrue("Files Are Different", FileUtils.contentEquals(file1, file2));
+
+        } catch (IOException | CSV.CSVException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -33,7 +44,18 @@ public class SystemTest {
         String command = ".\\assets\\testfile\\sample_file_1.csv .\\assets\\testfile\\sample_file_1_copy.csv";
         String[] args = command.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
         System.out.println(Arrays.toString(args));
-        Main.main(args);
+
+        try {
+            Main.run(args);
+
+            File file1 = new File("compare_sample_file_1_sample_file_1_copy_all.csv");
+            File file2 = new File(".\\assets\\expected\\expected_sample_file_1_sample_file_1_copy_all.csv");
+
+            assertTrue("Files Are Different", FileUtils.contentEquals(file1, file2));
+
+        } catch (IOException | CSV.CSVException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test

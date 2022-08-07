@@ -48,7 +48,7 @@ Program throws the Following Exceptions via a stacktrace:
 - All Test Cases can be run by running the `UnitTestRunner.java` file.
 
 #### Fuzzing
-- To run the fuzzer, navigate the current working directory of the terminal to `.\Mini-Campaign\Fuzzer` Directory and install the required packages using the requirements.txt file.
+- To run the fuzzer, navigate the current working directory of the terminal to `.\Mini-Campaign\Fuzzer` Directory and install the required packages using the `requirements.txt` file.
 - Enter `py fuzzer.py` into the shell at `.\Mini-Campaign\Fuzzer` Directory.
 - Check the `.\Mini-Campaign\Fuzzer\testfile\output.log` file to take a look at the logs of each trial as performed by `fuzzer.py` file.
 - Delete the `output.log` file once you are done.

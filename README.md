@@ -42,6 +42,13 @@ Program throws the Following Exceptions via a stacktrace:
 
 ### Testing
 
+#### Blackbox Testing
 - Unit Testing and System Testing (via BlackBox Testing) implemented using JUnit 4.13.2 
 - For System Testing, 11 partitions were identified and 2 test cases correspond to Middle and Boundary Values respectively.
 - All Test Cases can be run by running the `UnitTestRunner.java` file.
+
+#### Fuzzing
+- To run the fuzzer, navigate the current working directory of the terminal to `.\Mini-Campaign\Fuzzer` Directory and install the required packages using the requirements.txt file.
+- Enter `py fuzzer.py` into the shell at `.\Mini-Campaign\Fuzzer` Directory.
+- Check the `.\Mini-Campaign\Fuzzer\testfile\output.log` file to take a look at the logs of each trial as performed by `fuzzer.py` file.
+- Delete the `output.log` file once you are done.

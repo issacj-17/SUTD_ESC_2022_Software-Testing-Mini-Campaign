@@ -418,8 +418,6 @@ public class CSV {
                  path = String.format("compare_%s_%s_selection.csv", file1, file2);
             }
 
-
-
             LinkedHashSet<LinkedHashMap> set;
             String[] filePath = new String[]{file1, file2};
             String[] keys = null;

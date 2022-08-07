@@ -19,17 +19,17 @@ public class Main {
         }
         catch (IllegalArgumentException iae){
             System.out.println("Program Failed - IllegalArgumentException");
-            System.err.println(iae.getMessage());
+            System.out.println(iae.getMessage());
 //            iae.printStackTrace();
         }
         catch (IOException ioe) {
             System.out.println("Program Failed - IOException");
-            System.err.println(ioe.getMessage());
+            System.out.println(ioe.getMessage());
 //            ioe.printStackTrace();
         }
         catch (CSV.CSVException csv) {
             System.out.println("Program Failed - CSVException");
-            System.err.println(csv.getMessage());
+            System.out.println(csv.getMessage());
 //            csv.printStackTrace();
         }
         finally {

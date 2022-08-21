@@ -52,3 +52,10 @@ Program throws the Following Exceptions via a stacktrace:
 - Enter `py fuzzer.py` into the shell at `.\Mini-Campaign\Fuzzer` Directory.
 - Check the `.\Mini-Campaign\Fuzzer\testfile\output.log` file to take a look at the logs of each trial as performed by `fuzzer.py` file.
 - Delete the `output.log` file once you are done.
+
+
+### 3rd Party Implementation Testing
+- All relevant files are located on the Root Folder.
+- The 2 repositories that I worked on are https://github.com/xl-Mu/50.003-Software-Testing-Mini-Campaign
+and https://github.com/PurpleDice95/ESC-HW .
+- Please refer to the MS Word Document - Week 13 - 3rd Party Implementation - Bug Bounty.docx - for more details.
